@@ -49,7 +49,7 @@ namespace OrangeBricks.Web.Controllers.Property.Builders
         {
             var offer = property.Offers;
             int? offerStatus = null;
-            if(offer!=null){
+            if(offer!=null && offer.Count!=0){
                 offerStatus = (int?)offer.OrderByDescending(x=>x.CreatedAt).FirstOrDefault().Status;  
             }
 
