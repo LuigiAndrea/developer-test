@@ -1,0 +1,36 @@
+﻿@model OrangeBricks.Web.Controllers.Property.ViewModels.MakeAppointmentViewModel
+
+@{
+    ViewBag.Title = "Make Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Make an appointment</h2>
+<div>
+    <p>When would you like to take a look at @Model.StreetName? From Monday to Friday, 9AM-6PM</p>
+
+</div>
+@using (Html.BeginForm("MakeAppointment", "Property", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>
+                Appointment Date:
+                <input type="datetime-local" name="AppointmentDate" value="@Model.AppointmentDate.ToString("yyyy-MM-dd hh:mm tt")" placeholder="yyyy-mm-dd hh:mm"/>
+            </p>
+            <p>@Html.ValidationMessageFor(m => m.AppointmentDate)</p>
+        </div>
+    </div>
+    <div class="col-md-10">
+        @Html.Hidden("PropertyId", Model.PropertyId)
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-default" value="Submit Request of Appointment" />
+        </div>
+    </div>
+}
+
+
