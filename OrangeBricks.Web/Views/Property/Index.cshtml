@@ -31,6 +31,9 @@
         <a href="@Url.Action("MakeOffer", "Property", new {id = property.Id})" class="btn btn-primary">
             Make Offer
         </a>
+    <a href="@Url.Action("MakeAppointment", "Property", new {id = property.Id})" class="btn btn-primary">
+        Make an Appointment
+    </a>
     }
     else if (property.OfferStatus != (int)OfferStatus.Accepted && property.OfferStatus != (int)OfferStatus.Rejected)
     {
@@ -45,7 +48,9 @@
         <a href="@Url.Action("MakeOffer", "Property", new {id = property.Id})" class="btn btn-primary">
             Make Offer
         </a>
-
+        <a href="@Url.Action("MakeAppointment", "Property", new {id = property.Id})" class="btn btn-primary">
+        Make an Appointment
+        </a>
     }
     else if (property.OfferStatus == (int)OfferStatus.Accepted)
     {

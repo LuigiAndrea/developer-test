@@ -7,6 +7,7 @@ using OrangeBricks.Web.Controllers.Property.Builders;
 using OrangeBricks.Web.Controllers.Property.Commands;
 using OrangeBricks.Web.Controllers.Property.ViewModels;
 using OrangeBricks.Web.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace OrangeBricks.Web.Controllers.Property
 {
@@ -25,7 +26,7 @@ namespace OrangeBricks.Web.Controllers.Property
             var builder = new PropertiesViewModelBuilder(_context);
             query.CurrentUserId = User.Identity.GetUserId();
             var viewModel = builder.Build(query);
-        
+
             return View(viewModel);
         }
 
@@ -87,6 +88,34 @@ namespace OrangeBricks.Web.Controllers.Property
         public ActionResult MakeOffer(MakeOfferCommand command)
         {
             var handler = new MakeOfferCommandHandler(_context);
+            command.BuyerUserId = User.Identity.GetUserId();
+            handler.Handle(command);
+
+            return RedirectToAction("Index");
+        }
+
+        [OrangeBricksAuthorize(Roles = "Buyer")]
+        public ActionResult MakeAppointment(int id)
+        {
+            var builder = new MakeAppointmentViewModelBuilder(_context);
+            var viewModel = builder.Build(id);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [OrangeBricksAuthorize(Roles = "Buyer")]
+        public ActionResult MakeAppointment(MakeAppointmentCommand command)
+        {
+            if (!ModelState.IsValidField("AppointmentDate"))
+            {
+                var builder = new MakeAppointmentViewModelBuilder(_context);
+                var viewModel = builder.Build(command.PropertyId);
+
+                return View(viewModel);
+
+            }
+            var handler = new MakeAppointmentCommandHandler(_context);
             command.BuyerUserId = User.Identity.GetUserId();
             handler.Handle(command);
 
